@@ -1,0 +1,44 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/gelendzhik/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/gelendzhik/intro-mobile.jpg);
+				}
+				h1 {
+					padding-bottom: 0.2em;
+					@media screen and (max-width: @mobile-breakpoint) {
+						padding-bottom: 0;
+					}
+				}
+			}
+		}
+		&.recommended {
+			>.contenu {
+				.tuapse-info-comp {
+					display: flex;
+					flex-direction: row-reverse;
+					@media screen and (max-width: @mobile-breakpoint) {
+					    flex-direction: column;
+					}
+					>* {
+						flex: 1 1 50%;
+					}
+					.info {
+						font-weight: normal;
+						padding: 2em 3em 2em 2em;
+						p.strong {
+							font-weight: bold;
+						}
+						p + p {
+							margin-top: 1em;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,31 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/sochi/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/sochi/intro-mobile.jpg);
+				}
+			}
+		}
+
+		.ugly-table {
+			&.sochi-excursions {
+				table {
+					width: 100%;
+					th, td {
+						padding: .5em;
+						font-size: 13px;
+						background-color: #fcfcfc;
+						@media screen and (max-width: @mobile-breakpoint) {
+							font-size: 2vw;
+						}
+					}
+				}
+			}
+		}
+
+	}
+}

@@ -1,0 +1,20 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/kaliningrad/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/kaliningrad/intro-mobile.jpg);
+				}
+				h1 {
+					padding: 0 13%;
+					@media screen and (max-width: @mobile-breakpoint) {
+						padding: 0;
+					}
+				}
+			}
+		}
+	}
+}

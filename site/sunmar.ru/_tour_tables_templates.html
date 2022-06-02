@@ -1,0 +1,55 @@
+<script id="_tours_table_desktop_template" type="mustache/template">
+    <table class="table table-bordered thead-light table-responsive-sm">
+        <thead>
+        <tr>
+            <th> </th>
+            {{ #heading_cells }}<th>{{ . }}</th>{{ /heading_cells }}
+        </tr>
+        </thead>
+        <tbody>
+        {{ #tour_datas }}
+        <tr data-scroll-marker="{{ scroll_marker }}">
+            <td>
+                {{ #days }}
+                <div class="duration-badge">
+                    <span class="days">{{ days }}</span>
+                    <span class="nights">{{ nights }}</span>
+                </div>
+                {{ /days }}
+                {{ tour_name }}
+            </td>
+            {{ #data_cells }}
+            <td {{ #lots_of_content }}style="white-space:normal"{{ /lots_of_content }}>{{{ content }}}</td>
+            {{ /data_cells }}
+        </tr>
+        {{ /tour_datas }}
+        </tbody>
+    </table>
+</script>
+<script id="_tours_table_mobile_template" type="mustache/template">
+    <div class="tours-table-mobile">
+        {{ #primaries }}
+        <div class="head" {{ #scroll_marker }}data-scroll-marker="{{ . }}"{{ /scroll_marker }}>
+            {{ #days }}
+            <div class="duration-badge">
+                <span class="days">{{ days }}</span>
+                <span class="nights">{{ nights }}</span>
+            </div>
+            {{ /days }}
+            {{ primary_name }}
+        </div>
+        {{ #secondaries }}
+        <div class="label" {{ #scroll_marker }}data-scroll-marker="{{ . }}"{{ /scroll_marker }}>
+            {{ #days }}
+            <div class="duration-badge">
+                <span class="days">{{ days }}</span>
+                <span class="nights">{{ nights }}</span>
+            </div>
+            {{ /days }}
+            {{ secondary_name }}
+        </div>
+        <div class="contenu" {{ #scroll_marker }}data-scroll-marker="{{ . }}"{{ /scroll_marker }}>{{{ contenu }}}</div>
+        {{ /secondaries }}
+        {{ /primaries }}
+    </div>
+</script>

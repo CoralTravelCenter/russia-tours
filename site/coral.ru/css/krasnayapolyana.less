@@ -1,0 +1,19 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/krasnayapolyana/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/krasnayapolyana/intro-mobile.jpg);
+				}
+				h1 {
+					@media screen and (max-width: @mobile-breakpoint) {
+
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,21 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/altai/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/altai/intro-mobile.jpg);
+				}
+				h1 {
+					padding-bottom: 0.3em;
+					@media screen and (max-width: @mobile-breakpoint) {
+						padding-bottom: 0;
+						padding-top: .15em;
+					}
+				}
+			}
+		}
+	}
+}

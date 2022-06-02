@@ -1,0 +1,332 @@
+@import "../../common/css/common";
+
+#site-wrap {
+	background-color: white;
+	section {
+		> .contenu {
+
+		}
+
+		&.intro {
+			>.contenu {
+				.proportional(1370/500);
+				background: url("../iii/intro-desktop.jpg") center no-repeat;
+				background-size: cover;
+				padding: 0;
+				@media screen and (max-width: @mobile-breakpoint) {
+					.proportional(720/980);
+					background-image: url(../iii/intro-mobile.jpg);
+				}
+				h1 {
+					position: absolute;
+					left: 10%;
+					top: 34%;
+					font-weight: bold;
+					text-transform: uppercase;
+					color: white;
+					.fluid-fontsize(4vw);
+					@media screen and (max-width: @mobile-breakpoint) {
+						width: 100%;
+						left: 0;
+						top: 15%;
+						text-align: center;
+						font-size: 8vw;
+					}
+				}
+			}
+		}
+
+		&.generic {
+			>.contenu {
+				p {
+					text-align: center;
+					font-weight: normal;
+					max-width: 50em;
+				}
+			}
+		}
+		&.c2a {
+			>.contenu {
+				p {
+					font-size: 24/16em;
+					text-align: center;
+				}
+			}
+		}
+		&.benefits {
+			>.contenu {
+				.benefits {
+					display: flex;
+					justify-content: center;
+					@media screen and (max-width: @mobile-breakpoint) {
+						flex-wrap: wrap;
+					}
+					> * {
+						flex: 1 1 10%;
+						.flex-column;
+						align-items: center;
+						text-align: center;
+						padding: 2em;
+						@media screen and (max-width: @mobile-breakpoint) {
+							flex: 1 1 30%;
+						}
+						@media screen and (max-width: @narrow-breakpoint) {
+							flex: 1 1 45%;
+							font-size: 3vw;
+						}
+						.icon {
+							.proportional(1/1);
+							width: 8em;
+							max-width: 132px;
+							background: center no-repeat;
+							background-size: contain;
+						}
+						.label {
+							font-weight: normal;
+							text-transform: uppercase;
+							line-height: 1.1;
+							margin-top: 1em;
+						}
+					}
+				}
+			}
+		}
+
+		&.cities-and-resorts {
+			>.contenu {
+				.tile-set {
+					width: 100%;
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					.tile {
+						.rounded-corners-overflow-fix;
+						background-color: #abc;
+						.proportional(1/1);
+						flex: 1 1 30%;
+						margin: .25em;
+						overflow: hidden;
+						border-radius: .5em;
+						font-size: 32/16em;
+						cursor: pointer;
+						@media screen and (max-width: @mobile-breakpoint) {
+							font-size: 3vw;
+							flex: 1 1 30vw;
+						}
+						@media screen and (max-width: @narrow-breakpoint) {
+						    &:last-child:nth-child(odd) {
+								.proportional(2/1);
+							}
+						}
+						@media screen and (max-width: @extreme-breakpoint) {
+							font-size: 7vw;
+						    flex: 1 1 100%;
+						}
+						&:hover {
+							.visual {
+								&.align-horizon {
+									>img {
+										transform: scale(1.2);
+									}
+								}
+								>img {
+									transform: scale(1.1);
+									filter: none;
+								}
+							}
+							.label {
+								opacity: 0;
+							}
+							.learn-more {
+								opacity: 1;
+								.buttonlike {
+									transform: none;
+								}
+							}
+						}
+						.visual {
+							&.align-horizon {
+								>img {
+									top: 0.3em;
+									transform: scale(1.1);
+								}
+							}
+							>img {
+								.abs100x100;
+								transform: translateZ(0);
+								//filter: blur(2px);
+								//filter: saturate(.33);
+								.transit(transform, 1s);
+								.transit(filter);
+							}
+						}
+						.label {
+							pointer-events: none;
+							.flex-center;
+							text-align: center;
+							font-weight: normal;
+							line-height: 1.2;
+							color: white;
+							padding: 2em;
+							.transit(opacity);
+							@media screen and (max-width: @mobile-breakpoint) {
+							    opacity: 1!important;
+							}
+							@media screen and (max-width: @tiny-breakpoint) {
+								font-weight: bold;
+							}
+							@media screen and (max-width: @extreme-breakpoint) {
+								font-weight: normal;
+							}
+						}
+						.learn-more {
+							.flex-center;
+							.transit(opacity);
+							opacity: 0;
+							@media screen and (max-width: @mobile-breakpoint) {
+							    opacity: 1!important;
+								align-items: flex-end;
+								padding: 1em;
+							}
+							.buttonlike {
+								border-radius: 3px;
+								font-size: .62em;
+								transform: translateY(50%);
+								.transit(transform);
+								@media screen and (max-width: @mobile-breakpoint) {
+								    transform: none!important;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&.other-resorts {
+			>.contenu {
+				.tile-set {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					@media screen and (max-width: @mobile-breakpoint) {
+					    flex-wrap: wrap;
+					}
+					.tile {
+						flex: 1 1 10%;
+						.flex-column;
+						align-items: center;
+						text-align: center;
+						padding: .5em;
+						color: inherit;
+						font-family: inherit;
+						font-size: inherit;
+						@media screen and (max-width: @mobile-breakpoint) {
+						    flex: 1 1 30%;
+							padding: 1em .5em;
+							font-size: 3vw;
+						}
+						&:hover {
+							.icon {
+								transform: scale(1.05);
+								background-size: 110%;
+								border-radius: .5em;
+							}
+						}
+
+						.icon {
+							.proportional(270/359);
+							width: 160/16em;
+							max-width: 270px;
+							background: center no-repeat;
+							background-size: 100%;
+							border-radius: 1em;
+							overflow: hidden;
+							.transit(background, 1s);
+							.transit(transform);
+							.transit(border-radius);
+						}
+
+						.label {
+							line-height: 1.1;
+							margin-top: 1em;
+							padding: 0 1em;
+						}
+					}
+				}
+			}
+		}
+
+		&.message-us {
+			>.contenu {
+				.messengers {
+					display: flex;
+					justify-content: center;
+					margin-top: 2em;
+					//margin-bottom: 3em;
+					a {
+						.interactive;
+						.proportional(1/1);
+						width: 5em;
+						max-width: 80px;
+						background: center no-repeat;
+						background-size: contain;
+						margin: 0 1.5em;
+					}
+				}
+			}
+		}
+
+		&.x-links {
+			>.contenu {
+				.buttonlike-list {
+					margin-top: 2em;
+					width: 100%;
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					.buttonlike {
+						margin: .5em;
+						border-radius: 3px;
+						font-weight: normal;
+						@media screen and (max-width: @mobile-breakpoint) {
+						    flex: 1 1 auto;
+						}
+					}
+				}
+			}
+		}
+
+		&.tours {
+			margin-top: 0;
+		}
+
+		&.banner {
+			&.cis {
+				>.contenu {
+					padding: 0;
+					.proportional(1336/526);
+					background: url("../iii/banner-cis-desktop.jpg") center no-repeat;
+					background-size: cover;
+					@media screen and (max-width: @mobile-breakpoint) {
+						.proportional(1/1);
+						background-image: url(../iii/banner-cis-mobile.jpg);
+					}
+				}
+			}
+			&.cruises {
+				>.contenu {
+					padding: 0;
+					.proportional(1336/440);
+					background: url("https://cdn.coral.ru/content/cms/russia/available-destinations/visual-russia-cruises-desktop.jpg") center no-repeat;
+					background-size: cover;
+					@media screen and (max-width: @mobile-breakpoint) {
+						.proportional(1/1);
+						background-image: url(https://cdn.coral.ru/content/cms/russia/available-destinations/visual-russia-cruises-mobile.jpg);
+					}
+				}
+			}
+		}
+
+	}
+}

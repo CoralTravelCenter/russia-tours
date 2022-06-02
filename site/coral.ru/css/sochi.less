@@ -1,0 +1,65 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/sochi/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/sochi/intro-mobile.jpg);
+				}
+				h1 {
+					padding-bottom: 0.3em;
+					@media screen and (max-width: @mobile-breakpoint) {
+						padding-bottom: 1.1em;
+					}
+				}
+			}
+		}
+
+		&.generic {
+			>.contenu {
+				.webcams {
+					width: 100%;
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					.cam {
+						flex: 0 1 100%/3;
+						.flex-column;
+						align-items: center;
+						text-align: center;
+						padding: 2em 1em;
+						@media screen and (max-width: @mobile-breakpoint) {
+							flex: 0 1 100%/2;
+						}
+						>a {
+							.proportional(16/9);
+							width: 100%;
+							background: center no-repeat;
+							background-size: cover;
+							border-radius: 1em;
+							overflow: hidden;
+							&:after {
+								content: '';
+								position: absolute;
+								left: 50%;
+								top: 50%;
+								transform: translate(-50%,-50%);
+								width: 5em;
+								height: 5em;
+								cursor: pointer;
+								background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE4IiBoZWlnaHQ9IjExOCIgdmlld0JveD0iMCAwIDExOCAxMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNTkiIGN5PSI1OSIgcj0iNTciIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik04NS41IDU0LjY2OTlDODguODMzMyA1Ni41OTQ0IDg4LjgzMzMgNjEuNDA1NiA4NS41IDYzLjMzMDFMNDkuNSA4NC4xMTQ3QzQ2LjE2NjcgODYuMDM5MiA0MiA4My42MzM2IDQyIDc5Ljc4NDZMNDIgMzguMjE1NEM0MiAzNC4zNjY0IDQ2LjE2NjcgMzEuOTYwOCA0OS41IDMzLjg4NTNMODUuNSA1NC42Njk5WiIgZmlsbD0id2hpdGUiLz48L3N2Zz4K") center no-repeat;
+								background-size: contain;
+							}
+						}
+						.label {
+							margin-top: 1em;
+						}
+					}
+				}
+			}
+		}
+
+	}
+}

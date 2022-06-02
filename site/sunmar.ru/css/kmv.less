@@ -1,0 +1,57 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/kmv/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/kmv/intro-mobile.jpg);
+				}
+				h1 {
+					font-size: 3.5em;
+				}
+			}
+		}
+
+		>.contenu {
+			h3 {
+				text-align: left;
+			}
+			.kmv-info-comp {
+				width: 100%;
+				display: flex;
+				flex-direction: row-reverse;
+				@media screen and (max-width: @mobile-breakpoint) {
+					flex-direction: column;
+				}
+				>* {
+					flex: 1 1 auto;
+				}
+				& + h2, & + h3 {
+					margin-top: 1em;
+				}
+				.visual {
+					.proportional(680/828);
+					width: 38%;
+					background: url("../iii/kmv/visual-01.jpg") center no-repeat;
+					background-size: cover;
+					border-radius: 1em;
+					@media screen and (max-width: @mobile-breakpoint) {
+						.proportional(4/3);
+						background-position: top center;
+						width: 100%;
+						margin-bottom: 5%;
+					}
+				}
+				.info {
+					padding-right: 5%;
+					@media screen and (max-width: @mobile-breakpoint) {
+						padding-right: 0;
+					}
+				}
+			}
+		}
+
+	}
+}

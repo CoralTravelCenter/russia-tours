@@ -1,0 +1,17 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/tumen/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/tumen/intro-mobile.jpg);
+				}
+				h1 {
+					background-image: linear-gradient(to bottom, rgba(0,0,0,0) 62%, rgba(0,0,0,.7) 100%);
+				}
+			}
+		}
+	}
+}

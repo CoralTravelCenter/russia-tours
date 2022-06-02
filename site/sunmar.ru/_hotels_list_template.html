@@ -1,0 +1,16 @@
+<script id="_hotels_list_template" type="mustache/template">
+    {{ #hotels_list }}
+    <div class="hotel-item {{ #flight_included }}package{{ /flight_included }} cashback">
+        <div class="visual" style="background-image: url({{ visual_url }});"><div></div></div>
+        <div data-stars="{{ stars }}"><div></div></div>
+        <div class="name">{{ name }}</div>
+        <div class="location">{{ location }}</div>
+        <div class="terms">{{ terms }}</div>
+        <div class="flight-included">Перелет включен</div>
+        <div class="price min rur">{{ price_formatted }}</div>
+        <div class="actions">
+            <a href="{{ book_href }}" class="buttonlike red" target="_blank">Забронировать</a>
+        </div>
+    </div>
+    {{ /hotels_list }}
+</script>

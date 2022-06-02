@@ -1,0 +1,14 @@
+@import "region";
+
+#site-wrap {
+	section {
+		&.intro {
+			> .contenu {
+				background-image: url(../iii/anapa/intro-desktop.jpg);
+				@media screen and (max-width: @mobile-breakpoint) {
+					background-image: url(../iii/anapa/intro-mobile.jpg);
+				}
+			}
+		}
+	}
+}
