@@ -92,16 +92,20 @@
 				.hotels-list {
 					width: 100%;
 					display: flex;
+					justify-content: center;
 					flex-wrap: wrap;
 					.hotel-item {
-						//flex: 1 1 100%/3;
+						flex: 0 1 100%/3;
 						.flex-column;
-						.flexy-tileset;
+						//.flexy-tileset;
 						align-items: center;
 						text-align: center;
 						padding: 2em 1em;
+						@media screen and (max-width: @mobile-breakpoint) {
+						    flex: 0 1 100%/2;
+						}
 						@media screen and (max-width: @narrow-breakpoint) {
-						    //flex: 1 1 100%!important;
+						    flex: 1 1 100%!important;
 						}
 						&:not(.package) {
 							.flight-included {

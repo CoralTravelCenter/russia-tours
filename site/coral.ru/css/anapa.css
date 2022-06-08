@@ -332,9 +332,11 @@ body > div.contentLayout-BaseContainer > div.notcritical > div > div:nth-child(2
 #site-wrap section.recommended > .contenu .hotels-list {
   width: 100%;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 }
 #site-wrap section.recommended > .contenu .hotels-list .hotel-item {
+  flex: 0 1 33.33333333%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -344,60 +346,15 @@ body > div.contentLayout-BaseContainer > div.notcritical > div > div:nth-child(2
 #site-wrap section.recommended > .contenu .hotels-list .hotel-item > * {
   max-width: 100%;
 }
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child {
-  flex: 1 1 100%;
-}
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child .visual {
-  position: relative;
-}
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child .visual:before {
-  content: '';
-  display: block;
-  padding-top: 45.04504505%;
-}
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child .visual > * {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
 @media screen and (max-width: 768px) {
-  #site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child .visual {
-    position: relative;
+  #site-wrap section.recommended > .contenu .hotels-list .hotel-item {
+    flex: 0 1 50%;
   }
-  #site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child .visual:before {
-    content: '';
-    display: block;
-    padding-top: 100%;
-  }
-  #site-wrap section.recommended > .contenu .hotels-list .hotel-item:first-child:last-child .visual > * {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(1):nth-last-child(2),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(2):nth-last-child(1),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(1):nth-last-child(4),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(2):nth-last-child(3),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(3):nth-last-child(2),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(4):nth-last-child(1) {
-  flex: 1 1 50%;
-}
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(1):nth-last-child(3),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(2):nth-last-child(2),
-#site-wrap section.recommended > .contenu .hotels-list .hotel-item:nth-child(3):nth-last-child(1) {
-  flex: 1 1 33.33333333%;
 }
 @media screen and (max-width: 576px) {
   #site-wrap section.recommended > .contenu .hotels-list .hotel-item {
     flex: 1 1 100%!important;
   }
-}
-@media screen and (max-width: 576px) {
 }
 #site-wrap section.recommended > .contenu .hotels-list .hotel-item:not(.package) .flight-included {
   visibility: hidden;
