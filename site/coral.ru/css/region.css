@@ -1105,3 +1105,9 @@ body > div.contentLayout-BaseContainer > div.notcritical > div > div:nth-child(2
 #site-wrap .flickity-enabled {
   outline: none;
 }
+#site-wrap .carouselcontainer {
+  display: none!important;
+}
+*[data-module="packagetourlistwithoutfilters"] {
+  display: none!important;
+}

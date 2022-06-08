@@ -121,7 +121,7 @@ Number.prototype.zeroPad = function(len, c) {
 window.DEBUG = 'REGIONAL PAGE';
 
 ASAP(function() {
-  var $flickityReady, data_grid, desktop_layout, expandLinkWithDates, month, month_names, parseDataSource, renderMobileTable, responsiveHandler, tomorrow, wrapTilesBy;
+  var $flickityReady, $hotels_list, data_grid, desktop_layout, expandLinkWithDates, hotels_list, month, month_names, parseDataSource, renderMobileTable, responsiveHandler, tomorrow, wrapTilesBy;
   $('[data-content-remove]').each(function(idx, el) {
     var $el, marker;
     $el = $(el);
@@ -462,6 +462,29 @@ ASAP(function() {
     });
   }
   $('[data-hotels-datasource]').remove();
+  hotels_list = $('.carouselcontainer .owl-carousel a').map(function(idx, a) {
+    var $a, $visual, hotel_data, price;
+    $a = $(a);
+    $visual = $a.find('.imagewrapper img');
+    price = Number($a.find('.price').text().replace(',', '.').replace(/[^0-9.]/g, ''));
+    return hotel_data = {
+      book_href: $a.attr('href'),
+      visual_url: $visual.attr('src') || $visual.attr('data-src'),
+      stars: $a.find('.stars').children().length,
+      name: $a.find('.content h3').text(),
+      location: $a.find('.content h3 + p').text(),
+      terms: $a.find('.content h3 + p + em').text(),
+      flight_included: !!$a.find('.flight').length,
+      price: price,
+      price_formatted: price.formatPrice()
+    };
+  }).toArray();
+  $hotels_list = $('.recommended .hotels-list');
+  if (hotels_list.length && $hotels_list.length) {
+    $hotels_list.empty().append(Mustache.render($('#_hotels_list_template').html(), {
+      hotels_list: hotels_list
+    }));
+  }
   return $('.video-box .play').on('click', function() {
     var $vbox, v;
     $vbox = $(this).closest('.video-box');
