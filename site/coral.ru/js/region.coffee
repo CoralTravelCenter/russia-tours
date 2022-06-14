@@ -52,6 +52,10 @@ String::zeroPad = (len, c) ->
     s + @
 Number::zeroPad = (len, c) -> String(@).zeroPad len, c
 
+Number::formatPrice = () ->
+    s = String(Math.round(this))
+    s.split('').reverse().join('').replace(/\d{3}/g, "$& ").split('').reverse().join('')
+
 window.DEBUG = 'REGIONAL PAGE'
 
 ASAP ->
@@ -315,7 +319,7 @@ ASAP ->
             price:           price
             price_formatted: price.formatPrice()
     .toArray()
-    $hotels_list = $('.recommended .hotels-list')
+    $hotels_list = $('.recommended .hotels-list').eq(0)
     if hotels_list.length and $hotels_list.length
         $hotels_list.empty().append Mustache.render $('#_hotels_list_template').html(), hotels_list: hotels_list
 #    else

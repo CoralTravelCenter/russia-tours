@@ -118,6 +118,12 @@ Number.prototype.zeroPad = function(len, c) {
   return String(this).zeroPad(len, c);
 };
 
+Number.prototype.formatPrice = function() {
+  var s;
+  s = String(Math.round(this));
+  return s.split('').reverse().join('').replace(/\d{3}/g, "$& ").split('').reverse().join('');
+};
+
 window.DEBUG = 'REGIONAL PAGE';
 
 ASAP(function() {
@@ -479,7 +485,7 @@ ASAP(function() {
       price_formatted: price.formatPrice()
     };
   }).toArray();
-  $hotels_list = $('.recommended .hotels-list');
+  $hotels_list = $('.recommended .hotels-list').eq(0);
   if (hotels_list.length && $hotels_list.length) {
     $hotels_list.empty().append(Mustache.render($('#_hotels_list_template').html(), {
       hotels_list: hotels_list
