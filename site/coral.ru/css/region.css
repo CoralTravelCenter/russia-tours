@@ -284,7 +284,8 @@ body > div.contentLayout-BaseContainer > div.notcritical > div > div:nth-child(2
     height: 100%;
   }
 }
-#site-wrap section.intro > .contenu h1 {
+#site-wrap section.intro > .contenu h1,
+#site-wrap section.intro > .contenu h2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -295,12 +296,14 @@ body > div.contentLayout-BaseContainer > div.notcritical > div > div:nth-child(2
   font-weight: normal;
 }
 @media screen and (min-width: 1440px) {
-  #site-wrap section.intro > .contenu h1 {
+  #site-wrap section.intro > .contenu h1,
+  #site-wrap section.intro > .contenu h2 {
     font-size: 86.4px;
   }
 }
 @media screen and (max-width: 768px) {
-  #site-wrap section.intro > .contenu h1 {
+  #site-wrap section.intro > .contenu h1,
+  #site-wrap section.intro > .contenu h2 {
     font-size: 12vw;
   }
 }
