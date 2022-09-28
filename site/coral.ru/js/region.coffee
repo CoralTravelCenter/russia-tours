@@ -154,11 +154,15 @@ ASAP ->
         $table = $($ugly_cms_table)
         data_grid = []
         tour_name = tour_href = days = nights = undefined
+        recent_m_idx = -1
+        add_a_year = 0
         $table.find('th, thead td').each (th_idx, th) ->
             return unless th_idx
             $th = $(th)
             m_idx = month.indexOf($th.text().replace(/\s/g,'').toLowerCase())
-            column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx)
+            add_a_year = add_a_year or (if m_idx < recent_m_idx then 12 else 0)
+            recent_m_idx = m_idx
+            column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx + add_a_year)
 #            column_end_date = moment(column_start_date).add(1, 'month')
             column_end_date = moment(column_start_date).endOf('month')
             if tomorrow.valueOf() <= column_end_date.valueOf()
@@ -239,12 +243,14 @@ ASAP ->
 
     renderMobileTable = (primary_field, secondary_field) ->
         by_primary = _.groupBy data_grid, primary_field
+        debugger
         primary_keys = _.keys(by_primary)
         if primary_field == 'month_name'
             primary_keys.sort (a, b) ->
-                aidx = month.indexOf(a)
-                bidx = month.indexOf(b)
-                aidx < bidx and -1 or (aidx > bidx and 1) or 0
+                by_primary[a][0].timestamp - by_primary[b][0].timestamp
+#                aidx = month.indexOf(a)
+#                bidx = month.indexOf(b)
+#                aidx < bidx and -1 or (aidx > bidx and 1) or 0
         Mustache.render $('#_tours_table_mobile_template').html(),
             primaries: primary_keys.map (primary_key) ->
                 by_secondary = _.groupBy by_primary[primary_key], secondary_field

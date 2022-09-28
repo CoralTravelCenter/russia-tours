@@ -262,10 +262,12 @@ ASAP(function() {
     }
   };
   parseDataSource = function($ugly_cms_table) {
-    var $table, data_grid, days, nights, tour_href, tour_name;
+    var $table, add_a_year, data_grid, days, nights, recent_m_idx, tour_href, tour_name;
     $table = $($ugly_cms_table);
     data_grid = [];
     tour_name = tour_href = days = nights = void 0;
+    recent_m_idx = -1;
+    add_a_year = 0;
     $table.find('th, thead td').each(function(th_idx, th) {
       var $th, column_end_date, column_start_date, m_idx;
       if (!th_idx) {
@@ -273,7 +275,9 @@ ASAP(function() {
       }
       $th = $(th);
       m_idx = month.indexOf($th.text().replace(/\s/g, '').toLowerCase());
-      column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx);
+      add_a_year = add_a_year || (m_idx < recent_m_idx ? 12 : 0);
+      recent_m_idx = m_idx;
+      column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx + add_a_year);
       column_end_date = moment(column_start_date).endOf('month');
       if (tomorrow.valueOf() <= column_end_date.valueOf()) {
         return $table.find('tbody tr').each(function(tr_idx, tr) {
@@ -381,13 +385,11 @@ ASAP(function() {
   renderMobileTable = function(primary_field, secondary_field) {
     var by_primary, primary_keys;
     by_primary = _.groupBy(data_grid, primary_field);
+    debugger;
     primary_keys = _.keys(by_primary);
     if (primary_field === 'month_name') {
       primary_keys.sort(function(a, b) {
-        var aidx, bidx;
-        aidx = month.indexOf(a);
-        bidx = month.indexOf(b);
-        return aidx < bidx && -1 || (aidx > bidx && 1) || 0;
+        return by_primary[a][0].timestamp - by_primary[b][0].timestamp;
       });
     }
     return Mustache.render($('#_tours_table_mobile_template').html(), {
