@@ -263,10 +263,12 @@ ASAP(function() {
     }
   };
   parseDataSource = function($ugly_cms_table) {
-    var $table, data_grid, days, nights, tour_href, tour_name;
+    var $table, add_a_year, data_grid, days, nights, recent_m_idx, tour_href, tour_name;
     $table = $($ugly_cms_table);
     data_grid = [];
     tour_name = tour_href = days = nights = void 0;
+    recent_m_idx = -1;
+    add_a_year = 0;
     $table.find('th, thead td').each(function(th_idx, th) {
       var $th, column_end_date, column_start_date, m_idx;
       if (!th_idx) {
@@ -274,10 +276,12 @@ ASAP(function() {
       }
       $th = $(th);
       m_idx = month.indexOf($th.text().replace(/\s/g, '').toLowerCase());
-      column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx);
+      add_a_year = add_a_year || (m_idx < recent_m_idx ? 12 : 0);
+      recent_m_idx = m_idx;
+      column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx + add_a_year);
       column_end_date = moment(column_start_date).endOf('month');
       if (tomorrow.valueOf() <= column_end_date.valueOf()) {
-        return $table.find('tr').each(function(tr_idx, tr) {
+        return $table.find('tbody tr').each(function(tr_idx, tr) {
           var $tr;
           $tr = $(tr);
           return $tr.find('td').each(function(td_idx, td) {
@@ -303,6 +307,7 @@ ASAP(function() {
                   if (run_date.valueOf() >= tomorrow.valueOf()) {
                     return data_grid.push({
                       timestamp: run_date.valueOf(),
+                      tour_uniq_name: nights + '-' + tour_name,
                       tour_name: tour_name,
                       tour_href: tour_href,
                       days: days,
@@ -339,6 +344,7 @@ ASAP(function() {
                     return links.forEach(function(link) {
                       return data_grid.push({
                         timestamp: column_start_date.valueOf(),
+                        tour_uniq_name: nights + '-' + tour_name,
                         tour_name: tour_name,
                         tour_href: tour_href,
                         days: days,
@@ -352,6 +358,7 @@ ASAP(function() {
                   } else {
                     return data_grid.push({
                       timestamp: column_start_date.valueOf(),
+                      tour_uniq_name: nights + '-' + tour_name,
                       tour_name: tour_name,
                       tour_href: tour_href,
                       days: days,
@@ -382,28 +389,27 @@ ASAP(function() {
     primary_keys = _.keys(by_primary);
     if (primary_field === 'month_name') {
       primary_keys.sort(function(a, b) {
-        var aidx, bidx;
-        aidx = month.indexOf(a);
-        bidx = month.indexOf(b);
-        return aidx < bidx && -1 || (aidx > bidx && 1) || 0;
+        return by_primary[a][0].timestamp - by_primary[b][0].timestamp;
       });
     }
     return Mustache.render($('#_tours_table_mobile_template').html(), {
       primaries: primary_keys.map(function(primary_key) {
-        var by_secondary, primary;
+        var by_secondary, primary, primary_name;
         by_secondary = _.groupBy(by_primary[primary_key], secondary_field);
+        primary_name = by_primary[primary_key][0][primary_field.replace('_uniq', '')];
         return primary = {
-          primary_name: primary_key,
+          primary_name: primary_name,
           days: primary_field.match(/tour/) && by_primary[primary_key][0].days,
           nights: primary_field.match(/tour/) && by_primary[primary_key][0].nights,
-          scroll_marker: primary_field.match(/tour/) && primary_key.replace(/\s/g, '').toUpperCase() || '',
+          scroll_marker: primary_field.match(/tour/) && primary_name.replace(/\s/g, '').toUpperCase() || '',
           secondaries: _.keys(by_secondary).map(function(secondary_key) {
-            var ref, secondary;
+            var ref, secondary, secondary_name;
+            secondary_name = by_secondary[secondary_key][0][secondary_field.replace('_uniq', '')];
             return secondary = {
-              secondary_name: secondary_key,
+              secondary_name: secondary_name,
               days: secondary_field.match(/tour/) && by_secondary[secondary_key][0].days,
               nights: secondary_field.match(/tour/) && by_secondary[secondary_key][0].nights,
-              scroll_marker: (primary_field.match(/tour/) && primary_key || secondary_key).replace(/\s/g, '').toUpperCase() || '',
+              scroll_marker: (primary_field.match(/tour/) && primary_name || secondary_name).replace(/\s/g, '').toUpperCase() || '',
               contenu: ((ref = by_secondary[secondary_key]) != null ? ref.map(function(data) {
                 return data.html;
               }).join('') : void 0) || ' '
@@ -416,17 +422,18 @@ ASAP(function() {
   if (data_grid.length) {
     desktop_layout = responsiveHandler('(min-width: 769px)', function() {
       var by_tour;
-      by_tour = _.groupBy(data_grid, 'tour_name');
+      by_tour = _.groupBy(data_grid, 'tour_uniq_name');
       return $('#_tours_table').empty().append(Mustache.render($('#_tours_table_desktop_template').html(), {
         heading_cells: month_names,
-        tour_datas: _.keys(by_tour).map(function(tour_name) {
-          var by_month, tour_data;
-          by_month = _.groupBy(by_tour[tour_name], 'month_name');
+        tour_datas: _.keys(by_tour).map(function(tour_uniq_name) {
+          var by_month, tour_data, tour_name;
+          by_month = _.groupBy(by_tour[tour_uniq_name], 'month_name');
+          tour_name = by_tour[tour_uniq_name][0].tour_name;
           return tour_data = {
             tour_name: tour_name,
             scroll_marker: tour_name.replace(/\s/g, '').toUpperCase(),
-            days: by_tour[tour_name][0].days,
-            nights: by_tour[tour_name][0].nights,
+            days: by_tour[tour_uniq_name][0].days,
+            nights: by_tour[tour_uniq_name][0].nights,
             data_cells: month_names.map(function(month_name) {
               var data_cell, ref, ref1;
               return data_cell = {
@@ -443,9 +450,9 @@ ASAP(function() {
       var opt;
       opt = $('[data-term-option].selected').attr('data-term-option');
       if (opt === 'tour') {
-        return $('#_tours_table').empty().append(renderMobileTable('tour_name', 'month_name'));
+        return $('#_tours_table').empty().append(renderMobileTable('tour_uniq_name', 'month_name'));
       } else if (opt === 'month') {
-        return $('#_tours_table').empty().append(renderMobileTable('month_name', 'tour_name'));
+        return $('#_tours_table').empty().append(renderMobileTable('month_name', 'tour_uniq_name'));
       }
     });
     $('[data-term-option]').on('click', function() {
@@ -455,9 +462,9 @@ ASAP(function() {
       $this.addClass("selected").siblings('.selected').removeClass('selected');
       if (!desktop_layout.matches) {
         if (opt === 'tour') {
-          return $('#_tours_table').empty().append(renderMobileTable('tour_name', 'month_name'));
+          return $('#_tours_table').empty().append(renderMobileTable('tour_uniq_name', 'month_name'));
         } else if (opt === 'month') {
-          return $('#_tours_table').empty().append(renderMobileTable('month_name', 'tour_name'));
+          return $('#_tours_table').empty().append(renderMobileTable('month_name', 'tour_uniq_name'));
         }
       }
     });

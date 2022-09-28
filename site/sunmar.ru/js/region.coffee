@@ -155,15 +155,19 @@ ASAP ->
         $table = $($ugly_cms_table)
         data_grid = []
         tour_name = tour_href = days = nights = undefined
+        recent_m_idx = -1
+        add_a_year = 0
         $table.find('th, thead td').each (th_idx, th) ->
             return unless th_idx
             $th = $(th)
             m_idx = month.indexOf($th.text().replace(/\s/g,'').toLowerCase())
-            column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx)
+            add_a_year = add_a_year or (if m_idx < recent_m_idx then 12 else 0)
+            recent_m_idx = m_idx
+            column_start_date = moment().date(1).hours(0).minutes(0).seconds(0).month(m_idx + add_a_year)
 #            column_end_date = moment(column_start_date).add(1, 'month')
             column_end_date = moment(column_start_date).endOf('month')
             if tomorrow.valueOf() <= column_end_date.valueOf()
-                $table.find('tr').each (tr_idx, tr) ->
+                $table.find('tbody tr').each (tr_idx, tr) ->
                     $tr = $(tr)
                     $tr.find('td').each (td_idx, td) ->
                         $td = $(td)
@@ -185,6 +189,7 @@ ASAP ->
                                     if run_date.valueOf() >= tomorrow.valueOf()
                                         data_grid.push
                                             timestamp: run_date.valueOf()
+                                            tour_uniq_name: nights + '-' + tour_name
                                             tour_name: tour_name
                                             tour_href: tour_href
                                             days: days
@@ -209,6 +214,7 @@ ASAP ->
                                         links.forEach (link) ->
                                             data_grid.push
                                                 timestamp: column_start_date.valueOf()
+                                                tour_uniq_name: nights + '-' + tour_name
                                                 tour_name: tour_name
                                                 tour_href: tour_href
                                                 days: days
@@ -220,6 +226,7 @@ ASAP ->
                                     else
                                         data_grid.push
                                             timestamp: column_start_date.valueOf()
+                                            tour_uniq_name: nights + '-' + tour_name
                                             tour_name: tour_name
                                             tour_href: tour_href
                                             days: days
@@ -240,39 +247,44 @@ ASAP ->
         primary_keys = _.keys(by_primary)
         if primary_field == 'month_name'
             primary_keys.sort (a, b) ->
-                aidx = month.indexOf(a)
-                bidx = month.indexOf(b)
-                aidx < bidx and -1 or (aidx > bidx and 1) or 0
+                by_primary[a][0].timestamp - by_primary[b][0].timestamp
+#                aidx = month.indexOf(a)
+#                bidx = month.indexOf(b)
+#                aidx < bidx and -1 or (aidx > bidx and 1) or 0
         Mustache.render $('#_tours_table_mobile_template').html(),
             primaries: primary_keys.map (primary_key) ->
                 by_secondary = _.groupBy by_primary[primary_key], secondary_field
+                primary_name = by_primary[primary_key][0][primary_field.replace('_uniq','')]
                 primary =
-                    primary_name: primary_key
+                    primary_name: primary_name
                     days: primary_field.match(/tour/) and by_primary[primary_key][0].days
                     nights: primary_field.match(/tour/) and by_primary[primary_key][0].nights
-                    scroll_marker: primary_field.match(/tour/) and primary_key.replace(/\s/g,'').toUpperCase() or ''
+                    scroll_marker: primary_field.match(/tour/) and primary_name.replace(/\s/g,'').toUpperCase() or ''
                     secondaries: _.keys(by_secondary).map (secondary_key) ->
+                        secondary_name = by_secondary[secondary_key][0][secondary_field.replace('_uniq','')]
                         secondary =
-                            secondary_name: secondary_key
+                            secondary_name: secondary_name
                             days: secondary_field.match(/tour/) and by_secondary[secondary_key][0].days
                             nights: secondary_field.match(/tour/) and by_secondary[secondary_key][0].nights
-                            scroll_marker: (primary_field.match(/tour/) and primary_key or secondary_key).replace(/\s/g,'').toUpperCase() or ''
+                            scroll_marker: (primary_field.match(/tour/) and primary_name or secondary_name).replace(/\s/g,'').toUpperCase() or ''
                             contenu: by_secondary[secondary_key]?.map((data) -> data.html).join('') or ' '
 
 
     if data_grid.length
         desktop_layout = responsiveHandler '(min-width: 769px)',
             ->
-                by_tour = _.groupBy(data_grid, 'tour_name')
+#                by_tour = _.groupBy(data_grid, 'tour_name')
+                by_tour = _.groupBy(data_grid, 'tour_uniq_name')
                 $('#_tours_table').empty().append Mustache.render $('#_tours_table_desktop_template').html(),
                     heading_cells: month_names
-                    tour_datas: _.keys(by_tour).map (tour_name) ->
-                        by_month = _.groupBy by_tour[tour_name], 'month_name'
+                    tour_datas: _.keys(by_tour).map (tour_uniq_name) ->
+                        by_month = _.groupBy by_tour[tour_uniq_name], 'month_name'
+                        tour_name = by_tour[tour_uniq_name][0].tour_name
                         tour_data =
                             tour_name: tour_name
                             scroll_marker: tour_name.replace(/\s/g,'').toUpperCase()
-                            days: by_tour[tour_name][0].days
-                            nights: by_tour[tour_name][0].nights
+                            days: by_tour[tour_uniq_name][0].days
+                            nights: by_tour[tour_uniq_name][0].nights
                             data_cells: month_names.map (month_name) ->
                                 data_cell =
                                     lots_of_content: by_month[month_name]?.length > 6
@@ -280,18 +292,19 @@ ASAP ->
             ->
                 opt = $('[data-term-option].selected').attr('data-term-option')
                 if opt == 'tour'
-                    $('#_tours_table').empty().append renderMobileTable('tour_name', 'month_name')
+                    $('#_tours_table').empty().append renderMobileTable('tour_uniq_name', 'month_name')
                 else if opt == 'month'
-                    $('#_tours_table').empty().append renderMobileTable('month_name', 'tour_name')
+                    $('#_tours_table').empty().append renderMobileTable('month_name', 'tour_uniq_name')
         $('[data-term-option]').on 'click', ->
             $this = $(this)
             opt = $this.attr 'data-term-option'
             $this.addClass("selected").siblings('.selected').removeClass('selected')
             unless desktop_layout.matches
                 if opt == 'tour'
-                    $('#_tours_table').empty().append renderMobileTable('tour_name', 'month_name')
+                    $('#_tours_table').empty().append renderMobileTable('tour_uniq_name', 'month_name')
                 else if opt == 'month'
-                    $('#_tours_table').empty().append renderMobileTable('month_name', 'tour_name')
+                    $('#_tours_table').empty().append renderMobileTable('month_name', 'tour_uniq_name')
+
 
     $('[data-hotels-datasource]').remove()
 
@@ -356,3 +369,4 @@ ASAP ->
         v = $vbox.find('video').get(0)
         v.play()
         $vbox.find('.poster,.ctl').fadeOut -> $(v).attr controls: yes
+
