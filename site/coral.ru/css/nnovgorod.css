@@ -1072,10 +1072,10 @@ body > div.contentLayout-BaseContainer > div.notcritical > div > div:nth-child(2
   display: none!important;
 }
 #site-wrap section.intro > .contenu {
-  background-image: url(../iii/nnovgorod/intro-desktop.jpg);
+  background-image: url(https://cdn.coral.ru/content/cms/russia/russia-tours/nnovgorod/intro-desktop-winter.jpg);
 }
 @media screen and (max-width: 768px) {
   #site-wrap section.intro > .contenu {
-    background-image: url(../iii/nnovgorod/intro-mobile.jpg);
+    background-image: url(https://cdn.coral.ru/content/cms/russia/russia-tours/nnovgorod/intro-mobile-winter.jpg);
   }
 }
