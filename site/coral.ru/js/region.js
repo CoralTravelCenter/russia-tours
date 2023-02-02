@@ -235,15 +235,21 @@ ASAP(function() {
   month = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
   tomorrow = moment().hours(0).minutes(0).seconds(0).add(1, 'day');
   expandLinkWithDates = function(href, dates_list) {
+    debugger;
     var duration, params_strings, query, query_string, query_url, ref;
     ref = href.split('?'), query_url = ref[0], query_string = ref[1];
     query = {};
     if (query_string) {
       params_strings = query_string.split('&');
       params_strings.forEach(function(ps) {
-        var k, ref1, v;
+        var ex, k, ref1, v;
         ref1 = ps.split('='), k = ref1[0], v = ref1[1];
-        return query[k] = JSON.parse(decodeURIComponent(v));
+        try {
+          return query[k] = JSON.parse(decodeURIComponent(v));
+        } catch (error) {
+          ex = error;
+          debugger;
+        }
       });
       duration = moment(query.q.End, 'DD.MM.YYY').diff(moment(query.q.Bgn, 'DD.MM.YYY'));
       return dates_list.map(function(date) {

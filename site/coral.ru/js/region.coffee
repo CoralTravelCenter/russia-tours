@@ -130,13 +130,17 @@ ASAP ->
     tomorrow = moment().hours(0).minutes(0).seconds(0).add(1, 'day')
 
     expandLinkWithDates = (href, dates_list) ->
+        debugger
         [query_url, query_string] = href.split('?')
         query = {}
         if query_string
             params_strings = query_string.split('&')
             params_strings.forEach (ps) ->
                 [k, v] = ps.split('=')
-                query[k] = JSON.parse decodeURIComponent(v)
+                try
+                    query[k] = JSON.parse decodeURIComponent(v)
+                catch ex
+                    debugger
             duration = moment(query.q.End, 'DD.MM.YYY').diff moment(query.q.Bgn, 'DD.MM.YYY')
             return dates_list.map (date) ->
                 q = JSON.parse JSON.stringify query
