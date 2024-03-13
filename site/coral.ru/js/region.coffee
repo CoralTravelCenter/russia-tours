@@ -130,7 +130,6 @@ ASAP ->
     tomorrow = moment().hours(0).minutes(0).seconds(0).add(1, 'day')
 
     expandLinkWithDates = (href, dates_list) ->
-        debugger
         [query_url, query_string] = href.split('?')
         query = {}
         if query_string
@@ -247,7 +246,6 @@ ASAP ->
 
     renderMobileTable = (primary_field, secondary_field) ->
         by_primary = _.groupBy data_grid, primary_field
-        debugger
         primary_keys = _.keys(by_primary)
         if primary_field == 'month_name'
             primary_keys.sort (a, b) ->
